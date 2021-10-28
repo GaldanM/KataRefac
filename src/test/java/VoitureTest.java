@@ -8,7 +8,8 @@ public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void getCurrentModele(Voiture.Ligne ligne) {
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L);
+    DbContext dbContext = createDbContext();
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, dbContext);
 
     assertThat(voiture.GetCurrentModele()).isEqualTo("Cette voiture est une " + ligne);
   }
@@ -16,7 +17,9 @@ public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void hasToitOuvrant(Voiture.Ligne ligne) {
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L);
+    DbContext dbContext = createDbContext();
+
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, dbContext);
 
     switch (voiture.type) {
       case Peugeot208Ligne1, QashqaiTekna, QashqaiVisia, QashqaiAcenta, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
@@ -32,5 +35,31 @@ public class VoitureTest {
       case QashqaiTekna -> assertThat(Voiture.GetNumberOfSeats(ligne)).isEqualTo(5F);
       default -> assertThat(Voiture.GetNumberOfSeats(ligne)).isEqualTo(0F);
     }
+  }
+
+  @Test
+  void saveVoiture() {
+    DbContext dbContext = createDbContext();
+
+    Voiture voiture = new Voiture(null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L, dbContext);
+    voiture.Save();
+
+    assertThat(voiture.GetAll().size()).isEqualTo(1);
+  }
+
+  @Test
+  void updateVoiture() {
+    DbContext dbContext = createDbContext();
+    Voiture voiture = new Voiture(null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L, dbContext);
+    voiture.Save();
+    Voiture voitureToUpdate = new Voiture(1L, "Rouge", voiture.type, voiture.nombreDeKm, dbContext);
+    voitureToUpdate.Save();
+
+    assertThat(voiture.Get(1L).couleur).isEqualTo("Rouge");
+    assertThat(voiture.GetAll().size()).isEqualTo(1);
+  }
+
+  private DbContext createDbContext() {
+    return new DbContextInMemory("");
   }
 }
