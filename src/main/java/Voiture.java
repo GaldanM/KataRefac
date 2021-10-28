@@ -6,18 +6,20 @@ public class Voiture {
   public Ligne type;
   public Long nombreDeKm;
 
-  private final PignonMoteur pignonMoteur = new PignonMoteur();
+  private final PignonMoteur pignonMoteur;
   private final SoupapeMoteur soupapeMoteur = new SoupapeMoteur();
-  private final Integer huileLevelMoteur = 100;
+  private final Integer huileLevelMoteur;
 
   private final DbContext dbContext;
 
-  public Voiture(Long id, String couleur, Ligne type, Long nombreDeKm, DbContext dbContext) {
+  public Voiture(Long id, String couleur, Ligne type, Long nombreDeKm, DbContext dbContext, PignonMoteur pignonMoteur, Integer huileLevelMoteur) {
     this.id = id;
     this.couleur = couleur;
     this.type = type;
     this.nombreDeKm = nombreDeKm;
     this.dbContext = dbContext;
+    this.pignonMoteur = pignonMoteur;
+    this.huileLevelMoteur = huileLevelMoteur;
   }
 
   public void Save() {
@@ -31,14 +33,20 @@ public class Voiture {
 
   public Voiture Get(Long id) {
     VoitureEntity voitureEntity = this.dbContext.findById(id);
-    return new Voiture(voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm, this.dbContext);
+    return new Voiture(
+        voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm,
+        this.dbContext, this.pignonMoteur, 100
+    );
   }
 
   public List<Voiture> GetAll() {
     return this.dbContext
         .findAll()
         .stream().map(voitureEntity ->
-            new Voiture(voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm, this.dbContext))
+            new Voiture(
+                voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm,
+                this.dbContext, this.pignonMoteur, 100
+            ))
         .toList();
   }
 

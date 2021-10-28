@@ -1,8 +1,5 @@
-public class PignonMoteur {
-  public void Engrener() {
-  }
+public interface PignonMoteur {
+  void Engrener();
 
-  public Boolean Enclencher() {
-    return true;
-  }
+  Boolean Enclencher();
 }

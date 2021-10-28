@@ -24,7 +24,10 @@ public class DbContextInMemory implements DbContext {
 
   public void update(Long id, String couleur, Voiture.Ligne type) {
     VoitureEntity voitureEntityToUpdate = this.voituresById.get(id);
-    Voiture updatedVoiture = new Voiture(id, couleur, type, voitureEntityToUpdate.nombreDeKm, this);
+    Voiture updatedVoiture = new Voiture(
+        id, couleur, type, voitureEntityToUpdate.nombreDeKm,
+        this, null, 100
+    );
     this.voituresById.put(id, new VoitureEntity(updatedVoiture));
   }
 }
