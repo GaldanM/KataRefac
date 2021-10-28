@@ -59,6 +59,13 @@ public class VoitureTest {
     assertThat(voiture.GetAll().size()).isEqualTo(1);
   }
 
+  @Test
+  void shouldDemarre() {
+    Voiture voiture = new Voiture(null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L, null);
+
+    assertThatCode(voiture::Demarrer).doesNotThrowAnyException();
+  }
+
   private DbContext createDbContext() {
     return new DbContextInMemory("");
   }

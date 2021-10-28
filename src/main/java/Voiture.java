@@ -61,16 +61,14 @@ public class Voiture {
   }
 
   public Boolean Demarrer() throws Exception {
-    try
-    {
+    try {
       this.pignonMoteur.Engrener();
       Boolean lancementOk = this.pignonMoteur.Enclencher();
       if (this.huileLevelMoteur < 20) {
         throw new Exception("Voiture impossible a dÃ©marrer, niveau d'huile trop faible");
       }
       return lancementOk;
-    }
-    catch (Exception exception) {
+    } catch (Exception exception) {
       throw new Exception("Le moteur n'a pas pu être démarré");
     }
   }
