@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DbContext {
-  HashMap<Long, VoitureEntity> voituresById;
+  private final HashMap<Long, VoitureEntity> voituresById;
 
   public DbContext(String myConnectionString) {
     this.voituresById = new HashMap<>();

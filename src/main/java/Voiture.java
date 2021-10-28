@@ -21,6 +21,7 @@ public class Voiture {
 
   public void Save() {
     if (this.id == null) {
+      this.id = (long) (this.dbContext.findAll().size() + 1);
       this.dbContext.add(new VoitureEntity(this));
     } else {
       this.dbContext.update(this.id, this.couleur, this.type);
