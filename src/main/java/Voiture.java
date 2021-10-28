@@ -56,7 +56,7 @@ public class Voiture {
 
   public Voiture GetVoitureAndUpdateKms() {
     Voiture voiture = this.Get(this.id);
-    voiture.nombreDeKm = nombreDeKm++;
+    voiture.nombreDeKm = ++nombreDeKm;
     this.Save();
     return voiture;
   }

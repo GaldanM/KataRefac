@@ -99,6 +99,21 @@ public class VoitureTest {
         .hasMessage("Le moteur n'a pas pu être démarré");
   }
 
+  @Test
+  void GetVoitureAndUpdateKms() {
+    DbContext dbContext = createDbContext();
+
+    Voiture voiture = new Voiture(
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
+        dbContext, null, 100);
+    voiture.Save();
+
+    Voiture sameVoiture = voiture.GetVoitureAndUpdateKms();
+
+    assertThat(sameVoiture.id).isEqualTo(1);
+    assertThat(sameVoiture.nombreDeKm).isEqualTo(1);
+  }
+
   private DbContext createDbContext() {
     return new DbContextInMemory("");
   }
