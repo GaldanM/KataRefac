@@ -21,10 +21,7 @@ public class Voiture {
   }
 
   public Boolean HasToitOuvrant() {
-    return switch (this.type) {
-      case Peugeot208Ligne1, QashqaiTekna, QashqaiVisia, QashqaiAcenta, Peugeot208Ligne2 -> true;
-      case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> false;
-    };
+    return this.type.hasToitOuvrant();
   }
 
   public Boolean Demarrer() throws Exception {
@@ -41,26 +38,33 @@ public class Voiture {
   }
 
   public static Float GetNumberOfSeats(Ligne type) {
-    if (type == Ligne.QashqaiAcenta) {
-      return 4F;
-    }
-    if (type == Ligne.QashqaiNConnecta) {
-      return 4F;
-    }
-    if (type == Ligne.QashqaiTekna) {
-      return 5F;
-    }
-    return (float) 0;
+    return type.getNumberOfSeats();
   }
 
   public enum Ligne {
-    QashqaiTekna,
-    QashqaiVisia,
-    QashqaiNConnecta,
-    QashqaiAcenta,
-    ScenicLigne1,
-    ScenicLigne2,
-    Peugeot208Ligne1,
-    Peugeot208Ligne2
+    QashqaiTekna(true, 5F),
+    QashqaiVisia(true, 0F),
+    QashqaiNConnecta(false, 4F),
+    QashqaiAcenta(true, 4F),
+    ScenicLigne1(false, 0F),
+    ScenicLigne2(false, 0F),
+    Peugeot208Ligne1(true, 0F),
+    Peugeot208Ligne2(true, 0F);
+
+    private final Boolean hasToitOuvrant;
+    private final Float numberOfSeats;
+
+    Ligne(Boolean hasToitOuvrant, Float numberOfSeats) {
+      this.hasToitOuvrant = hasToitOuvrant;
+      this.numberOfSeats = numberOfSeats;
+    }
+
+    public Boolean hasToitOuvrant() {
+      return this.hasToitOuvrant;
+    }
+
+    public Float getNumberOfSeats() {
+      return this.numberOfSeats;
+    }
   }
 }

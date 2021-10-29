@@ -19,8 +19,8 @@ public class VoitureTest {
     Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
 
     switch (voiture.type) {
-      case Peugeot208Ligne1, QashqaiTekna,
-          QashqaiVisia, QashqaiAcenta, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
+      case QashqaiTekna, QashqaiVisia, QashqaiAcenta,
+          Peugeot208Ligne1, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
       case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(false);
     }
   }
