@@ -5,10 +5,13 @@ import org.junit.jupiter.params.provider.EnumSource;
 import static org.assertj.core.api.Assertions.*;
 
 public class VoitureTest {
+  final Integer HUILE_LEVEL_OK = 100;
+  final Integer HUILE_LEVEL_TOO_LOW = 10;
+
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void displayLigne(Voiture.Ligne ligne) {
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, HUILE_LEVEL_OK, null);
 
     assertThat(voiture.DisplayLigne()).isEqualTo("Cette voiture est une " + ligne);
   }
@@ -16,7 +19,7 @@ public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void hasToitOuvrant(Voiture.Ligne ligne) {
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, HUILE_LEVEL_OK, null);
 
     switch (voiture.type) {
       case QashqaiTekna, QashqaiVisia, QashqaiAcenta,
@@ -44,7 +47,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
-        0L, 100, pignonMoteur
+        0L, HUILE_LEVEL_OK, pignonMoteur
     );
     voitureService.Save(voiture);
 
@@ -60,7 +63,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
-        0L, 100, pignonMoteur
+        0L, HUILE_LEVEL_OK, pignonMoteur
     );
     voitureService.Save(voiture);
     Voiture voitureToUpdate = voitureService.GetAll().get(0);
@@ -76,7 +79,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
-        0L, 100, pignonMoteur
+        0L, HUILE_LEVEL_OK, pignonMoteur
     );
 
     try {
@@ -91,7 +94,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(false);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
-        0L, 100, pignonMoteur
+        0L, HUILE_LEVEL_OK, pignonMoteur
     );
 
     try {
@@ -106,7 +109,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
-        0L, 10, pignonMoteur
+        0L, HUILE_LEVEL_TOO_LOW, pignonMoteur
     );
 
     assertThatThrownBy(voiture::Demarrer)
@@ -123,7 +126,7 @@ public class VoitureTest {
     PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
-        100, pignonMoteur);
+        HUILE_LEVEL_OK, pignonMoteur);
     voitureService.Save(voiture);
 
     Voiture sameVoiture = voitureService.RouleUnKm(1L);
