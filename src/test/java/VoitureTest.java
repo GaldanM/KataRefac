@@ -7,10 +7,10 @@ import static org.assertj.core.api.Assertions.*;
 public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
-  void getCurrentModele(Voiture.Ligne ligne) {
+  void displayLigne(Voiture.Ligne ligne) {
     Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
 
-    assertThat(voiture.GetCurrentModele()).isEqualTo("Cette voiture est une " + ligne);
+    assertThat(voiture.DisplayLigne()).isEqualTo("Cette voiture est une " + ligne);
   }
 
   @ParameterizedTest
@@ -126,7 +126,7 @@ public class VoitureTest {
         100, pignonMoteur);
     voitureService.Save(voiture);
 
-    Voiture sameVoiture = voitureService.GetVoitureAndUpdateKms(1L);
+    Voiture sameVoiture = voitureService.RouleUnKm(1L);
 
     assertThat(sameVoiture.id).isEqualTo(1);
     assertThat(sameVoiture.nombreDeKm).isEqualTo(1);

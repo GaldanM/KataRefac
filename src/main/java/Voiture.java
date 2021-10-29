@@ -16,14 +16,6 @@ public class Voiture {
     this.pignonMoteur = pignonMoteur;
   }
 
-  public String GetCurrentModele() {
-    return "Cette voiture est une " + this.type;
-  }
-
-  public Boolean HasToitOuvrant() {
-    return this.type.hasToitOuvrant();
-  }
-
   public Boolean Demarrer() throws Exception {
     try {
       this.pignonMoteur.Engrener();
@@ -35,6 +27,14 @@ public class Voiture {
     } catch (Exception exception) {
       throw new Exception("Le moteur n'a pas pu être démarré");
     }
+  }
+
+  public String DisplayLigne() {
+    return "Cette voiture est une " + this.type;
+  }
+
+  public Boolean HasToitOuvrant() {
+    return this.type.hasToitOuvrant();
   }
 
   public static Float GetNumberOfSeats(Ligne type) {

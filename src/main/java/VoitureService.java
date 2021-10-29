@@ -9,7 +9,7 @@ public class VoitureService {
     this.pignonMoteurRepository = pignonMoteurRepository;
   }
 
-  public Voiture GetVoitureAndUpdateKms(Long voitureId) {
+  public Voiture RouleUnKm(Long voitureId) {
     VoitureEntity voitureEntity = this.voitureRepository.incrementNombreDeKm(voitureId);
 
     return VoitureMapper.VoitureEntityToVoiture(voitureEntity, this.pignonMoteurRepository);
