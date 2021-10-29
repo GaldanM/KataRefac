@@ -1,64 +1,23 @@
-import java.util.List;
-
 public class Voiture {
   public Long id;
   public String couleur;
   public Ligne type;
   public Long nombreDeKm;
+  public Integer huileLevelMoteur;
+  public PignonMoteur pignonMoteur;
+  public SoupapeMoteur soupapeMoteur = new SoupapeMoteur();
 
-  private final PignonMoteur pignonMoteur;
-  private final SoupapeMoteur soupapeMoteur = new SoupapeMoteur();
-  private final Integer huileLevelMoteur;
-
-  private final DbContext dbContext;
-
-  public Voiture(Long id, String couleur, Ligne type, Long nombreDeKm, DbContext dbContext, PignonMoteur pignonMoteur, Integer huileLevelMoteur) {
+  public Voiture(Long id, String couleur, Ligne type, Long nombreDeKm, Integer huileLevelMoteur, PignonMoteur pignonMoteur) {
     this.id = id;
     this.couleur = couleur;
     this.type = type;
     this.nombreDeKm = nombreDeKm;
-    this.dbContext = dbContext;
-    this.pignonMoteur = pignonMoteur;
     this.huileLevelMoteur = huileLevelMoteur;
-  }
-
-  public void Save() {
-    if (this.id == null) {
-      this.id = (long) (this.dbContext.findAll().size() + 1);
-      this.dbContext.add(new VoitureEntity(this));
-    } else {
-      this.dbContext.update(this.id, this.couleur, this.type);
-    }
-  }
-
-  public Voiture Get(Long id) {
-    VoitureEntity voitureEntity = this.dbContext.findById(id);
-    return new Voiture(
-        voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm,
-        this.dbContext, this.pignonMoteur, 100
-    );
-  }
-
-  public List<Voiture> GetAll() {
-    return this.dbContext
-        .findAll()
-        .stream().map(voitureEntity ->
-            new Voiture(
-                voitureEntity.id, voitureEntity.couleur, voitureEntity.type, voitureEntity.nombreDeKm,
-                this.dbContext, this.pignonMoteur, 100
-            ))
-        .toList();
+    this.pignonMoteur = pignonMoteur;
   }
 
   public String GetCurrentModele() {
     return "Cette voiture est une " + this.type;
-  }
-
-  public Voiture GetVoitureAndUpdateKms() {
-    Voiture voiture = this.Get(this.id);
-    voiture.nombreDeKm = ++nombreDeKm;
-    this.Save();
-    return voiture;
   }
 
   public Boolean HasToitOuvrant() {
@@ -94,7 +53,7 @@ public class Voiture {
     return (float) 0;
   }
 
-  enum Ligne {
+  public enum Ligne {
     QashqaiTekna,
     QashqaiVisia,
     QashqaiNConnecta,

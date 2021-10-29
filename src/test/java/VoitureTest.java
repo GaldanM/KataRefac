@@ -8,8 +8,7 @@ public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void getCurrentModele(Voiture.Ligne ligne) {
-    DbContext dbContext = createDbContext();
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, dbContext, null, 100);
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
 
     assertThat(voiture.GetCurrentModele()).isEqualTo("Cette voiture est une " + ligne);
   }
@@ -17,12 +16,11 @@ public class VoitureTest {
   @ParameterizedTest
   @EnumSource(Voiture.Ligne.class)
   void hasToitOuvrant(Voiture.Ligne ligne) {
-    DbContext dbContext = createDbContext();
-
-    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, dbContext, null, 100);
+    Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, 100, null);
 
     switch (voiture.type) {
-      case Peugeot208Ligne1, QashqaiTekna, QashqaiVisia, QashqaiAcenta, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
+      case Peugeot208Ligne1, QashqaiTekna,
+          QashqaiVisia, QashqaiAcenta, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
       case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(false);
     }
   }
@@ -39,32 +37,47 @@ public class VoitureTest {
 
   @Test
   void saveVoiture() {
-    DbContext dbContext = createDbContext();
+    VoitureRepository voitureRepository = new VoitureRepositoryInMemory("");
+    PignonMoteurRepository pignonMoteurRepository = new PignonMoteurRepositoryInMemory("");
+    VoitureService voitureService = new VoitureService(voitureRepository, pignonMoteurRepository);
 
-    Voiture voiture = new Voiture(null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L, dbContext, null, 100);
-    voiture.Save();
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
+    Voiture voiture = new Voiture(
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, 100, pignonMoteur
+    );
+    voitureService.Save(voiture);
 
-    assertThat(voiture.GetAll().size()).isEqualTo(1);
+    assertThat(voitureService.GetAll().size()).isEqualTo(1);
   }
 
   @Test
   void updateVoiture() {
-    DbContext dbContext = createDbContext();
-    Voiture voiture = new Voiture(null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L, dbContext, null, 100);
-    voiture.Save();
-    Voiture voitureToUpdate = new Voiture(1L, "Rouge", voiture.type, voiture.nombreDeKm, dbContext, null, 100);
-    voitureToUpdate.Save();
+    VoitureRepository voitureRepository = new VoitureRepositoryInMemory("");
+    PignonMoteurRepository pignonMoteurRepository = new PignonMoteurRepositoryInMemory("");
+    VoitureService voitureService = new VoitureService(voitureRepository, pignonMoteurRepository);
 
-    assertThat(voiture.Get(1L).couleur).isEqualTo("Rouge");
-    assertThat(voiture.GetAll().size()).isEqualTo(1);
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
+    Voiture voiture = new Voiture(
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, 100, pignonMoteur
+    );
+    voitureService.Save(voiture);
+    Voiture voitureToUpdate = voitureService.GetAll().get(0);
+    voitureToUpdate.couleur = "Rouge";
+    voitureService.Save(voitureToUpdate);
+
+    assertThat(voitureService.Get(1L).couleur).isEqualTo("Rouge");
+    assertThat(voitureService.GetAll().size()).isEqualTo(1);
   }
 
   @Test
   void shouldDemarre() {
-    PignonMoteur pignonMoteur = new PignonMoteurWorking();
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
-        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
-        null, pignonMoteur, 100);
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, 100, pignonMoteur
+    );
 
     try {
       assertThat(voiture.Demarrer()).isTrue();
@@ -75,10 +88,11 @@ public class VoitureTest {
 
   @Test
   void shouldNotDemarreWhenPignonDoesNotEnclenche() {
-    PignonMoteur pignonMoteur = new PignonMoteurNotWorking();
+    PignonMoteur pignonMoteur = new PignonMoteur(false);
     Voiture voiture = new Voiture(
-        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
-        null, pignonMoteur, 100);
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, 100, pignonMoteur
+    );
 
     try {
       assertThat(voiture.Demarrer()).isFalse();
@@ -89,10 +103,11 @@ public class VoitureTest {
 
   @Test
   void shouldNotDemarreWhenHuileLevelTooLow() {
-    PignonMoteur pignonMoteur = new PignonMoteurWorking();
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
-        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
-        null, pignonMoteur, 10);
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, 10, pignonMoteur
+    );
 
     assertThatThrownBy(voiture::Demarrer)
         .isInstanceOf(Exception.class)
@@ -101,20 +116,19 @@ public class VoitureTest {
 
   @Test
   void GetVoitureAndUpdateKms() {
-    DbContext dbContext = createDbContext();
+    VoitureRepository voitureRepository = new VoitureRepositoryInMemory("");
+    PignonMoteurRepository pignonMoteurRepository = new PignonMoteurRepositoryInMemory("");
+    VoitureService voitureService = new VoitureService(voitureRepository, pignonMoteurRepository);
 
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
     Voiture voiture = new Voiture(
         null, "Bleue", Voiture.Ligne.Peugeot208Ligne1, 0L,
-        dbContext, null, 100);
-    voiture.Save();
+        100, pignonMoteur);
+    voitureService.Save(voiture);
 
-    Voiture sameVoiture = voiture.GetVoitureAndUpdateKms();
+    Voiture sameVoiture = voitureService.GetVoitureAndUpdateKms(1L);
 
     assertThat(sameVoiture.id).isEqualTo(1);
     assertThat(sameVoiture.nombreDeKm).isEqualTo(1);
-  }
-
-  private DbContext createDbContext() {
-    return new DbContextInMemory("");
   }
 }

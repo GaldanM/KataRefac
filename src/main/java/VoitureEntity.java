@@ -4,12 +4,14 @@ public class VoitureEntity {
   public Voiture.Ligne type;
   public Long nombreDeKm;
   public Boolean isDeleted;
+  public Integer huileLevelMoteur;
 
-  public VoitureEntity(Voiture voiture) {
-    this.id = voiture.id;
-    this.couleur = voiture.couleur;
-    this.type = voiture.type;
-    this.nombreDeKm = voiture.nombreDeKm;
+  public VoitureEntity(Long id, String couleur, Voiture.Ligne type, Long nombreDeKm, Integer huileLevelMoteur) {
+    this.id = id;
+    this.couleur = couleur;
+    this.type = type;
+    this.nombreDeKm = nombreDeKm;
+    this.huileLevelMoteur = huileLevelMoteur;
     this.isDeleted = false;
   }
 }

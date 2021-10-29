@@ -1,5 +1,13 @@
-public interface PignonMoteur {
-  void Engrener();
+public class PignonMoteur {
+  public final Boolean isWorking;
 
-  Boolean Enclencher();
+  public PignonMoteur(Boolean isWorking) {
+    this.isWorking = isWorking;
+  }
+
+  public void Engrener() {}
+
+  public Boolean Enclencher() {
+    return this.isWorking;
+  }
 }

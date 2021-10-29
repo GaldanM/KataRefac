@@ -1,10 +1,10 @@
 import java.util.HashMap;
 import java.util.List;
 
-public class DbContextInMemory implements DbContext {
+public class VoitureRepositoryInMemory implements VoitureRepository {
   private final HashMap<Long, VoitureEntity> voituresById;
 
-  public DbContextInMemory(String myConnectionString) {
+  public VoitureRepositoryInMemory(String myConnectionString) {
     this.voituresById = new HashMap<>();
   }
 
@@ -22,12 +22,14 @@ public class DbContextInMemory implements DbContext {
     this.voituresById.put(voitureEntity.id, voitureEntity);
   }
 
-  public void update(Long id, String couleur, Voiture.Ligne type) {
-    VoitureEntity voitureEntityToUpdate = this.voituresById.get(id);
-    Voiture updatedVoiture = new Voiture(
-        id, couleur, type, voitureEntityToUpdate.nombreDeKm,
-        this, null, 100
-    );
-    this.voituresById.put(id, new VoitureEntity(updatedVoiture));
+  public void update(VoitureEntity voitureEntityToUpdate) {
+    this.voituresById.put(voitureEntityToUpdate.id, voitureEntityToUpdate);
+  }
+
+  public VoitureEntity incrementNombreDeKm(Long voitureId) {
+    VoitureEntity voitureEntityToUpdate = this.voituresById.get(voitureId);
+    voitureEntityToUpdate.nombreDeKm += 1;
+    this.voituresById.put(voitureId, voitureEntityToUpdate);
+    return voitureEntityToUpdate;
   }
 }
