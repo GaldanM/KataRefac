@@ -1,3 +1,4 @@
+import exception.CarCouldNotStartException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -113,7 +114,7 @@ public class VoitureTest {
     );
 
     assertThatThrownBy(voiture::Demarrer)
-        .isInstanceOf(Exception.class)
+        .isInstanceOf(CarCouldNotStartException.class)
         .hasMessage("Le moteur n'a pas pu être démarré");
   }
 

@@ -1,3 +1,6 @@
+import exception.CarCouldNotStartException;
+import exception.OilLevelTooLowException;
+
 public class Voiture {
   public Long id;
   public String couleur;
@@ -16,18 +19,18 @@ public class Voiture {
     this.pignonMoteur = pignonMoteur;
   }
 
-  public Boolean Demarrer() throws Exception {
+  public Boolean Demarrer() throws CarCouldNotStartException {
     final Integer HUILE_LEVEL_TOO_LOW_THRESHOLD = 20;
 
     try {
       this.pignonMoteur.Engrener();
       Boolean lancementOk = this.pignonMoteur.Enclencher();
       if (this.huileLevelMoteur < HUILE_LEVEL_TOO_LOW_THRESHOLD) {
-        throw new Exception("Voiture impossible a dÃ©marrer, niveau d'huile trop faible");
+        throw new OilLevelTooLowException();
       }
       return lancementOk;
     } catch (Exception exception) {
-      throw new Exception("Le moteur n'a pas pu être démarré");
+      throw new CarCouldNotStartException();
     }
   }
 
