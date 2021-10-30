@@ -56,7 +56,7 @@ public class VoitureTest {
   }
 
   @Test
-  void updateVoiture() {
+  void updateVoitureCouleur() {
     VoitureRepository voitureRepository = new VoitureRepositoryInMemory("");
     PignonMoteurRepository pignonMoteurRepository = new PignonMoteurRepositoryInMemory("");
     VoitureService voitureService = new VoitureService(voitureRepository, pignonMoteurRepository);
@@ -72,6 +72,26 @@ public class VoitureTest {
     voitureService.Save(voitureToUpdate);
 
     assertThat(voitureService.Get(1L).getCouleur()).isEqualTo("Rouge");
+    assertThat(voitureService.GetAll().size()).isEqualTo(1);
+  }
+
+  @Test
+  void updateVoitureType() {
+    VoitureRepository voitureRepository = new VoitureRepositoryInMemory("");
+    PignonMoteurRepository pignonMoteurRepository = new PignonMoteurRepositoryInMemory("");
+    VoitureService voitureService = new VoitureService(voitureRepository, pignonMoteurRepository);
+
+    PignonMoteur pignonMoteur = new PignonMoteur(true);
+    Voiture voiture = new Voiture(
+        null, "Bleue", Voiture.Ligne.Peugeot208Ligne1,
+        0L, HUILE_LEVEL_OK, pignonMoteur
+    );
+    voitureService.Save(voiture);
+    Voiture voitureToUpdate = voitureService.GetAll().get(0);
+    voitureToUpdate.setType(Voiture.Ligne.Peugeot208Ligne2);
+    voitureService.Save(voitureToUpdate);
+
+    assertThat(voitureService.Get(1L).getType()).isEqualTo(Voiture.Ligne.Peugeot208Ligne2);
     assertThat(voitureService.GetAll().size()).isEqualTo(1);
   }
 
