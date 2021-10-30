@@ -14,7 +14,7 @@ public class CarTest {
   void displayLigne(Car.Line line) {
     Car car = new Car(null, "Bleue", line, 0L, OIL_LEVEL_OK, null);
 
-    assertThat(car.DisplayLigne()).isEqualTo("Cette voiture est une " + line);
+    assertThat(car.displayLigne()).isEqualTo("Cette voiture est une " + line);
   }
 
   @ParameterizedTest
@@ -24,8 +24,8 @@ public class CarTest {
 
     switch (car.getType()) {
       case QashqaiTekna, QashqaiVisia, QashqaiAcenta,
-          Peugeot208Ligne1, Peugeot208Ligne2 -> assertThat(car.HasSunRoof()).isEqualTo(true);
-      case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> assertThat(car.HasSunRoof()).isEqualTo(false);
+          Peugeot208Ligne1, Peugeot208Ligne2 -> assertThat(car.hasSunRoof()).isEqualTo(true);
+      case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> assertThat(car.hasSunRoof()).isEqualTo(false);
     }
   }
 
@@ -33,9 +33,9 @@ public class CarTest {
   @EnumSource(Car.Line.class)
   void GetNumberOfSeats(Car.Line line) {
     switch (line) {
-      case QashqaiAcenta, QashqaiNConnecta -> assertThat(Car.GetNumberOfSeats(line)).isEqualTo(4F);
-      case QashqaiTekna -> assertThat(Car.GetNumberOfSeats(line)).isEqualTo(5F);
-      default -> assertThat(Car.GetNumberOfSeats(line)).isEqualTo(0F);
+      case QashqaiAcenta, QashqaiNConnecta -> assertThat(Car.getNumberOfSeats(line)).isEqualTo(4F);
+      case QashqaiTekna -> assertThat(Car.getNumberOfSeats(line)).isEqualTo(5F);
+      default -> assertThat(Car.getNumberOfSeats(line)).isEqualTo(0F);
     }
   }
 
@@ -50,9 +50,9 @@ public class CarTest {
         null, "Bleue", Car.Line.Peugeot208Ligne1,
         0L, OIL_LEVEL_OK, engineSprocket
     );
-    carService.Save(car);
+    carService.save(car);
 
-    assertThat(carService.GetAll().size()).isEqualTo(1);
+    assertThat(carService.getAll().size()).isEqualTo(1);
   }
 
   @Test
@@ -66,13 +66,13 @@ public class CarTest {
         null, "Bleue", Car.Line.Peugeot208Ligne1,
         0L, OIL_LEVEL_OK, engineSprocket
     );
-    carService.Save(car);
-    Car carToUpdate = carService.GetAll().get(0);
+    carService.save(car);
+    Car carToUpdate = carService.getAll().get(0);
     carToUpdate.setColor("Rouge");
-    carService.Save(carToUpdate);
+    carService.save(carToUpdate);
 
-    assertThat(carService.Get(1L).getColor()).isEqualTo("Rouge");
-    assertThat(carService.GetAll().size()).isEqualTo(1);
+    assertThat(carService.get(1L).getColor()).isEqualTo("Rouge");
+    assertThat(carService.getAll().size()).isEqualTo(1);
   }
 
   @Test
@@ -86,13 +86,13 @@ public class CarTest {
         null, "Bleue", Car.Line.Peugeot208Ligne1,
         0L, OIL_LEVEL_OK, engineSprocket
     );
-    carService.Save(car);
-    Car carToUpdate = carService.GetAll().get(0);
+    carService.save(car);
+    Car carToUpdate = carService.getAll().get(0);
     carToUpdate.setType(Car.Line.Peugeot208Ligne2);
-    carService.Save(carToUpdate);
+    carService.save(carToUpdate);
 
-    assertThat(carService.Get(1L).getType()).isEqualTo(Car.Line.Peugeot208Ligne2);
-    assertThat(carService.GetAll().size()).isEqualTo(1);
+    assertThat(carService.get(1L).getType()).isEqualTo(Car.Line.Peugeot208Ligne2);
+    assertThat(carService.getAll().size()).isEqualTo(1);
   }
 
   @Test
@@ -104,7 +104,7 @@ public class CarTest {
     );
 
     try {
-      assertThat(car.Start()).isTrue();
+      assertThat(car.start()).isTrue();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -119,7 +119,7 @@ public class CarTest {
     );
 
     try {
-      assertThat(car.Start()).isFalse();
+      assertThat(car.start()).isFalse();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -133,7 +133,7 @@ public class CarTest {
         0L, OIL_LEVEL_TOO_LOW, engineSprocket
     );
 
-    assertThatThrownBy(car::Start)
+    assertThatThrownBy(car::start)
         .isInstanceOf(CarCouldNotStartException.class)
         .hasMessage("Le moteur n'a pas pu être démarré");
   }
@@ -148,9 +148,9 @@ public class CarTest {
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1, 0L,
         OIL_LEVEL_OK, engineSprocket);
-    carService.Save(car);
+    carService.save(car);
 
-    Car sameCar = carService.DriveAKm(1L);
+    Car sameCar = carService.driveAKm(1L);
 
     assertThat(sameCar.getId()).isEqualTo(1);
     assertThat(sameCar.getNumberOfKm()).isEqualTo(1);

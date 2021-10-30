@@ -9,20 +9,20 @@ public class CarService {
     this.engineSprocketRepository = engineSprocketRepository;
   }
 
-  public Car DriveAKm(Long carId) {
+  public Car driveAKm(Long carId) {
     CarEntity carEntity = this.carRepository.incrementNumberOfKm(carId);
 
     return CarMapper.CarEntityToCar(carEntity, this.engineSprocketRepository);
   }
 
-  public List<Car> GetAll() {
+  public List<Car> getAll() {
     return this.carRepository
         .findAll()
         .stream().map(carEntity -> CarMapper.CarEntityToCar(carEntity, this.engineSprocketRepository))
         .toList();
   }
 
-  public void Save(Car car) {
+  public void save(Car car) {
     if (car.getId() == null) {
       car.setId((long) (this.carRepository.findAll().size() + 1));
       EngineSprocketEntity engineSprocketEntity = EngineSprocketMapper.EngineSprocketToEngineSprocketEntity(car.getEngineSprocket());
@@ -33,7 +33,7 @@ public class CarService {
     }
   }
 
-  public Car Get(Long id) {
+  public Car get(Long id) {
     CarEntity carEntity = this.carRepository.findById(id);
 
     return CarMapper.CarEntityToCar(carEntity, this.engineSprocketRepository);

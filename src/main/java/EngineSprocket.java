@@ -5,9 +5,9 @@ public class EngineSprocket {
     this.isWorking = isWorking;
   }
 
-  public void Gear() {}
+  public void gear() {}
 
-  public Boolean Engage() {
+  public Boolean engage() {
     return this.isWorking;
   }
 

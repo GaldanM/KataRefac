@@ -19,12 +19,12 @@ public class Car {
     this.engineSprocket = engineSprocket;
   }
 
-  public Boolean Start() throws CarCouldNotStartException {
+  public Boolean start() throws CarCouldNotStartException {
     final Integer OIL_LEVEL_TOO_LOW_THRESHOLD = 20;
 
     try {
-      this.engineSprocket.Gear();
-      Boolean lancementOk = this.engineSprocket.Engage();
+      this.engineSprocket.gear();
+      Boolean lancementOk = this.engineSprocket.engage();
       if (this.engineOilLevel < OIL_LEVEL_TOO_LOW_THRESHOLD) {
         throw new OilLevelTooLowException();
       }
@@ -34,15 +34,15 @@ public class Car {
     }
   }
 
-  public String DisplayLigne() {
+  public String displayLigne() {
     return "Cette voiture est une " + this.type;
   }
 
-  public Boolean HasSunRoof() {
+  public Boolean hasSunRoof() {
     return this.type.hasSunRoof();
   }
 
-  public static Float GetNumberOfSeats(Line type) {
+  public static Float getNumberOfSeats(Line type) {
     return type.getNumberOfSeats();
   }
 
