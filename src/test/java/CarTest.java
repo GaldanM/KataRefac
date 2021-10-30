@@ -1,3 +1,10 @@
+import car.Car;
+import car.CarRepository;
+import car.CarRepositoryInMemory;
+import car.CarService;
+import engine.Sprocket;
+import engine.SprocketRepository;
+import engine.SprocketRepositoryInMemory;
 import exception.CarCouldNotStartException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,13 +49,13 @@ public class CarTest {
   @Test
   void saveCar() {
     CarRepository carRepository = new CarRepositoryInMemory("");
-    EngineSprocketRepository engineSprocketRepository = new EngineSprocketRepositoryInMemory("");
-    CarService carService = new CarService(carRepository, engineSprocketRepository);
+    SprocketRepository sprocketRepository = new SprocketRepositoryInMemory("");
+    CarService carService = new CarService(carRepository, sprocketRepository);
 
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_OK, engineSprocket
+        0L, OIL_LEVEL_OK, sprocket
     );
     carService.save(car);
 
@@ -58,13 +65,13 @@ public class CarTest {
   @Test
   void updateCarColor() {
     CarRepository carRepository = new CarRepositoryInMemory("");
-    EngineSprocketRepository engineSprocketRepository = new EngineSprocketRepositoryInMemory("");
-    CarService carService = new CarService(carRepository, engineSprocketRepository);
+    SprocketRepository sprocketRepository = new SprocketRepositoryInMemory("");
+    CarService carService = new CarService(carRepository, sprocketRepository);
 
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_OK, engineSprocket
+        0L, OIL_LEVEL_OK, sprocket
     );
     carService.save(car);
     Car carToUpdate = carService.getAll().get(0);
@@ -78,13 +85,13 @@ public class CarTest {
   @Test
   void updateCarType() {
     CarRepository carRepository = new CarRepositoryInMemory("");
-    EngineSprocketRepository engineSprocketRepository = new EngineSprocketRepositoryInMemory("");
-    CarService carService = new CarService(carRepository, engineSprocketRepository);
+    SprocketRepository sprocketRepository = new SprocketRepositoryInMemory("");
+    CarService carService = new CarService(carRepository, sprocketRepository);
 
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_OK, engineSprocket
+        0L, OIL_LEVEL_OK, sprocket
     );
     carService.save(car);
     Car carToUpdate = carService.getAll().get(0);
@@ -97,10 +104,10 @@ public class CarTest {
 
   @Test
   void shouldStart() {
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_OK, engineSprocket
+        0L, OIL_LEVEL_OK, sprocket
     );
 
     try {
@@ -112,10 +119,10 @@ public class CarTest {
 
   @Test
   void shouldNotStartWhenSprocketDoesNotEngage() {
-    EngineSprocket engineSprocket = new EngineSprocket(false);
+    Sprocket sprocket = new Sprocket(false);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_OK, engineSprocket
+        0L, OIL_LEVEL_OK, sprocket
     );
 
     try {
@@ -127,10 +134,10 @@ public class CarTest {
 
   @Test
   void shouldNotStartWhenOilLevelTooLow() {
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1,
-        0L, OIL_LEVEL_TOO_LOW, engineSprocket
+        0L, OIL_LEVEL_TOO_LOW, sprocket
     );
 
     assertThatThrownBy(car::start)
@@ -141,13 +148,13 @@ public class CarTest {
   @Test
   void DriveAKm() {
     CarRepository carRepository = new CarRepositoryInMemory("");
-    EngineSprocketRepository engineSprocketRepository = new EngineSprocketRepositoryInMemory("");
-    CarService carService = new CarService(carRepository, engineSprocketRepository);
+    SprocketRepository sprocketRepository = new SprocketRepositoryInMemory("");
+    CarService carService = new CarService(carRepository, sprocketRepository);
 
-    EngineSprocket engineSprocket = new EngineSprocket(true);
+    Sprocket sprocket = new Sprocket(true);
     Car car = new Car(
         null, "Bleue", Car.Line.Peugeot208Ligne1, 0L,
-        OIL_LEVEL_OK, engineSprocket);
+        OIL_LEVEL_OK, sprocket);
     carService.save(car);
 
     Car sameCar = carService.driveAKm(1L);

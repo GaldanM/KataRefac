@@ -1,7 +1,9 @@
-public class EngineSprocket {
+package engine;
+
+public class Sprocket {
   private final Boolean isWorking;
 
-  public EngineSprocket(Boolean isWorking) {
+  public Sprocket(Boolean isWorking) {
     this.isWorking = isWorking;
   }
 

@@ -1,7 +1,9 @@
-public class EngineSprocketEntity {
+package engine;
+
+public class SprocketEntity {
   private final Boolean isWorking;
 
-  public EngineSprocketEntity(Boolean isWorking) {
+  public SprocketEntity(Boolean isWorking) {
     this.isWorking = isWorking;
   }
 

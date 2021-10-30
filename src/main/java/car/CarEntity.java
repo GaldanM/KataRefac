@@ -1,3 +1,5 @@
+package car;
+
 public class CarEntity {
   private final Long id;
   private final String color;

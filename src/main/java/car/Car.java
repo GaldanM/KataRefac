@@ -1,34 +1,28 @@
+package car;
+
+import engine.Engine;
+import engine.Sprocket;
+
 import exception.CarCouldNotStartException;
-import exception.OilLevelTooLowException;
 
 public class Car {
   private Long id;
   private String color;
   private Line type;
   private final Long numberOfKm;
-  private final Integer engineOilLevel;
-  private final EngineSprocket engineSprocket;
-  private final EngineValve engineValve = new EngineValve();
+  private final Engine engine;
 
-  public Car(Long id, String color, Line type, Long numberOfKm, Integer engineOilLevel, EngineSprocket engineSprocket) {
+  public Car(Long id, String color, Line type, Long numberOfKm, Integer oilLevel, Sprocket sprocket) {
     this.id = id;
     this.color = color;
     this.type = type;
     this.numberOfKm = numberOfKm;
-    this.engineOilLevel = engineOilLevel;
-    this.engineSprocket = engineSprocket;
+    this.engine = new Engine(sprocket, oilLevel);
   }
 
   public Boolean start() throws CarCouldNotStartException {
-    final Integer OIL_LEVEL_TOO_LOW_THRESHOLD = 20;
-
     try {
-      this.engineSprocket.gear();
-      Boolean lancementOk = this.engineSprocket.engage();
-      if (this.engineOilLevel < OIL_LEVEL_TOO_LOW_THRESHOLD) {
-        throw new OilLevelTooLowException();
-      }
-      return lancementOk;
+      return this.engine.start();
     } catch (Exception exception) {
       throw new CarCouldNotStartException();
     }
@@ -63,11 +57,11 @@ public class Car {
   }
 
   public Integer getEngineOilLevel() {
-    return engineOilLevel;
+    return this.engine.getOilLevel();
   }
 
-  public EngineSprocket getEngineSprocket() {
-    return engineSprocket;
+  public Sprocket getEngineSprocket() {
+    return this.engine.getSprocket();
   }
 
   public void setId(Long id) {
