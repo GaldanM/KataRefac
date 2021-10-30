@@ -15,7 +15,9 @@ public class VoitureRepositoryInMemory implements VoitureRepository {
   }
 
   public List<VoitureEntity> findAll() {
-    return this.voituresById.values().stream().toList();
+    return this.voituresById.values().stream()
+        .filter(voitureEntity -> voitureEntity.getIsDeleted().equals(false))
+        .toList();
   }
 
   public void add(VoitureEntity voitureEntity) {

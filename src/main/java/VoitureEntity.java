@@ -36,7 +36,7 @@ public class VoitureEntity {
     return huileLevelMoteur;
   }
 
-  public Boolean getDeleted() {
+  public Boolean getIsDeleted() {
     return isDeleted;
   }
 
