@@ -1,7 +1,7 @@
-public class PignonMoteurEntity {
+public class EngineSprocketEntity {
   private final Boolean isWorking;
 
-  public PignonMoteurEntity(Boolean isWorking) {
+  public EngineSprocketEntity(Boolean isWorking) {
     this.isWorking = isWorking;
   }
 

@@ -1,13 +1,13 @@
-public class PignonMoteur {
+public class EngineSprocket {
   private final Boolean isWorking;
 
-  public PignonMoteur(Boolean isWorking) {
+  public EngineSprocket(Boolean isWorking) {
     this.isWorking = isWorking;
   }
 
-  public void Engrener() {}
+  public void Gear() {}
 
-  public Boolean Enclencher() {
+  public Boolean Engage() {
     return this.isWorking;
   }
 
