@@ -22,7 +22,7 @@ public class VoitureTest {
   void hasToitOuvrant(Voiture.Ligne ligne) {
     Voiture voiture = new Voiture(null, "Bleue", ligne, 0L, HUILE_LEVEL_OK, null);
 
-    switch (voiture.type) {
+    switch (voiture.getType()) {
       case QashqaiTekna, QashqaiVisia, QashqaiAcenta,
           Peugeot208Ligne1, Peugeot208Ligne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(true);
       case QashqaiNConnecta, ScenicLigne1, ScenicLigne2 -> assertThat(voiture.HasToitOuvrant()).isEqualTo(false);
@@ -68,10 +68,10 @@ public class VoitureTest {
     );
     voitureService.Save(voiture);
     Voiture voitureToUpdate = voitureService.GetAll().get(0);
-    voitureToUpdate.couleur = "Rouge";
+    voitureToUpdate.setCouleur("Rouge");
     voitureService.Save(voitureToUpdate);
 
-    assertThat(voitureService.Get(1L).couleur).isEqualTo("Rouge");
+    assertThat(voitureService.Get(1L).getCouleur()).isEqualTo("Rouge");
     assertThat(voitureService.GetAll().size()).isEqualTo(1);
   }
 
@@ -132,7 +132,7 @@ public class VoitureTest {
 
     Voiture sameVoiture = voitureService.RouleUnKm(1L);
 
-    assertThat(sameVoiture.id).isEqualTo(1);
-    assertThat(sameVoiture.nombreDeKm).isEqualTo(1);
+    assertThat(sameVoiture.getId()).isEqualTo(1);
+    assertThat(sameVoiture.getNombreDeKm()).isEqualTo(1);
   }
 }

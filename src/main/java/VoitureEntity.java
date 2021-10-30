@@ -1,10 +1,11 @@
 public class VoitureEntity {
-  public Long id;
-  public String couleur;
-  public Voiture.Ligne type;
-  public Long nombreDeKm;
-  public Boolean isDeleted;
-  public Integer huileLevelMoteur;
+  private final Long id;
+  private final String couleur;
+  private final Voiture.Ligne type;
+  private final Integer huileLevelMoteur;
+  private final Boolean isDeleted;
+
+  private Long nombreDeKm;
 
   public VoitureEntity(Long id, String couleur, Voiture.Ligne type, Long nombreDeKm, Integer huileLevelMoteur) {
     this.id = id;
@@ -13,5 +14,33 @@ public class VoitureEntity {
     this.nombreDeKm = nombreDeKm;
     this.huileLevelMoteur = huileLevelMoteur;
     this.isDeleted = false;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getCouleur() {
+    return couleur;
+  }
+
+  public Voiture.Ligne getType() {
+    return type;
+  }
+
+  public Long getNombreDeKm() {
+    return nombreDeKm;
+  }
+
+  public Integer getHuileLevelMoteur() {
+    return huileLevelMoteur;
+  }
+
+  public Boolean getDeleted() {
+    return isDeleted;
+  }
+
+  public void setNombreDeKm(Long nombreDeKm) {
+    this.nombreDeKm = nombreDeKm;
   }
 }

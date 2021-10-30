@@ -2,13 +2,13 @@ import exception.CarCouldNotStartException;
 import exception.OilLevelTooLowException;
 
 public class Voiture {
-  public Long id;
-  public String couleur;
-  public Ligne type;
-  public Long nombreDeKm;
-  public Integer huileLevelMoteur;
-  public PignonMoteur pignonMoteur;
-  public SoupapeMoteur soupapeMoteur = new SoupapeMoteur();
+  private Long id;
+  private String couleur;
+  private Ligne type;
+  private final Long nombreDeKm;
+  private final Integer huileLevelMoteur;
+  private final PignonMoteur pignonMoteur;
+  private final SoupapeMoteur soupapeMoteur = new SoupapeMoteur();
 
   public Voiture(Long id, String couleur, Ligne type, Long nombreDeKm, Integer huileLevelMoteur, PignonMoteur pignonMoteur) {
     this.id = id;
@@ -44,6 +44,42 @@ public class Voiture {
 
   public static Float GetNumberOfSeats(Ligne type) {
     return type.getNumberOfSeats();
+  }
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public String getCouleur() {
+    return this.couleur;
+  }
+
+  public Ligne getType() {
+    return this.type;
+  }
+
+  public Long getNombreDeKm() {
+    return this.nombreDeKm;
+  }
+
+  public Integer getHuileLevelMoteur() {
+    return huileLevelMoteur;
+  }
+
+  public PignonMoteur getPignonMoteur() {
+    return pignonMoteur;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setCouleur(String couleur) {
+    this.couleur = couleur;
+  }
+
+  public void setType(Ligne type) {
+    this.type = type;
   }
 
   public enum Ligne {

@@ -23,10 +23,10 @@ public class VoitureService {
   }
 
   public void Save(Voiture voiture) {
-    if (voiture.id == null) {
-      voiture.id = (long) (this.voitureRepository.findAll().size() + 1);
-      PignonMoteurEntity pignonMoteurEntity = PignonMapper.PignonMoteurToPignonMoteurEntity(voiture.pignonMoteur);
-      this.pignonMoteurRepository.add(voiture.id, pignonMoteurEntity);
+    if (voiture.getId() == null) {
+      voiture.setId((long) (this.voitureRepository.findAll().size() + 1));
+      PignonMoteurEntity pignonMoteurEntity = PignonMapper.PignonMoteurToPignonMoteurEntity(voiture.getPignonMoteur());
+      this.pignonMoteurRepository.add(voiture.getId(), pignonMoteurEntity);
       this.voitureRepository.add(VoitureMapper.VoitureToVoitureEntity(voiture));
     } else {
       this.voitureRepository.update(VoitureMapper.VoitureToVoitureEntity(voiture));

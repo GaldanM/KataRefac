@@ -1,5 +1,5 @@
 public class PignonMoteur {
-  public final Boolean isWorking;
+  private final Boolean isWorking;
 
   public PignonMoteur(Boolean isWorking) {
     this.isWorking = isWorking;
@@ -8,6 +8,10 @@ public class PignonMoteur {
   public void Engrener() {}
 
   public Boolean Enclencher() {
+    return this.isWorking;
+  }
+
+  public Boolean getIsWorking() {
     return this.isWorking;
   }
 }

@@ -10,7 +10,7 @@ public class VoitureRepositoryInMemory implements VoitureRepository {
 
   public VoitureEntity findById(Long idToFind) {
     return this.voituresById.values().stream()
-        .filter(voiture -> voiture.id.equals(idToFind))
+        .filter(voiture -> voiture.getId().equals(idToFind))
         .findFirst().orElse(null);
   }
 
@@ -19,16 +19,16 @@ public class VoitureRepositoryInMemory implements VoitureRepository {
   }
 
   public void add(VoitureEntity voitureEntity) {
-    this.voituresById.put(voitureEntity.id, voitureEntity);
+    this.voituresById.put(voitureEntity.getId(), voitureEntity);
   }
 
   public void update(VoitureEntity voitureEntityToUpdate) {
-    this.voituresById.put(voitureEntityToUpdate.id, voitureEntityToUpdate);
+    this.voituresById.put(voitureEntityToUpdate.getId(), voitureEntityToUpdate);
   }
 
   public VoitureEntity incrementNombreDeKm(Long voitureId) {
     VoitureEntity voitureEntityToUpdate = this.voituresById.get(voitureId);
-    voitureEntityToUpdate.nombreDeKm += 1;
+    voitureEntityToUpdate.setNombreDeKm(voitureEntityToUpdate.getNombreDeKm() + 1);
     this.voituresById.put(voitureId, voitureEntityToUpdate);
     return voitureEntityToUpdate;
   }
